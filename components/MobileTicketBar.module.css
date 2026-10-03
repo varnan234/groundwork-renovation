@@ -1,0 +1,94 @@
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom, 0px));
+  background: var(--ink);
+  color: var(--primer);
+  box-shadow: 0 -8px 20px -10px rgb(29 28 26 / 0.45);
+  transform: translateY(0);
+  transition:
+    transform var(--t-med) var(--ease-out),
+    visibility 0s;
+}
+
+.bar[data-hidden="true"] {
+  transform: translateY(100%);
+  visibility: hidden;
+  transition:
+    transform var(--t-med) var(--ease-out),
+    visibility 0s linear var(--t-med);
+}
+
+.status {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Count reads as ticket print */
+.statusCount {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.book {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  min-width: 84px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: var(--r-control);
+  background: var(--framing);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: transform var(--t-fast) var(--ease-out);
+}
+
+.book:active {
+  transform: translateY(1px);
+}
+
+.dm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid color-mix(in srgb, var(--primer) 45%, transparent);
+  border-radius: var(--r-control);
+  color: var(--primer);
+  transition: background-color var(--t-fast) var(--ease-out);
+}
+
+.dm:active {
+  background: color-mix(in srgb, var(--primer) 18%, transparent);
+}
+
+@media (min-width: 760px) {
+  .bar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar,
+  .bar[data-hidden="true"] {
+    transition: none;
+  }
+}

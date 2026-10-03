@@ -1,0 +1,138 @@
+.section {
+  background: var(--framing);
+  color: var(--ink);
+  padding-block: var(--s-5);
+}
+/* Shared container: identical to the hero and nav, so every left edge lines up. */
+.inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.top {
+  display: grid;
+  gap: var(--s-3);
+  align-items: start;
+}
+.h2 {
+  font-size: var(--fs-h2);
+  max-width: 12ch;
+}
+.copy {
+  display: grid;
+  gap: var(--s-2);
+  justify-items: start;
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  max-width: 62ch;
+}
+.copy p:nth-child(2) {
+  font-weight: 700;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 4.5rem;
+  margin-top: var(--s-2);
+  padding: 0 var(--s-4);
+  background: var(--ink);
+  color: var(--primer);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--r-control);
+  box-shadow: var(--shadow-rest);
+  transition:
+    transform var(--t-med) var(--ease-out),
+    box-shadow var(--t-med) var(--ease-out);
+}
+.cta:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+}
+.cta:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-rest);
+}
+.note {
+  margin: calc(-1 * var(--s-1)) 0 0;
+  font-family: var(--mono);
+  font-size: var(--fs-ticket);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+/* Three ticket stubs in sequence */
+.steps {
+  list-style: none;
+  margin: var(--s-4) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-3);
+}
+.stub {
+  --num-w: 4.5rem;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--num-w) minmax(0, 1fr);
+  align-items: stretch;
+  background: var(--card);
+  border-radius: var(--r-chip);
+  box-shadow: var(--shadow-rest);
+}
+/* die-cut notches where the stub tears off */
+.stub::before,
+.stub::after {
+  content: "";
+  position: absolute;
+  left: var(--num-w);
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--framing);
+  transform: translateX(-50%);
+}
+.stub::before {
+  top: -0.625rem;
+}
+.stub::after {
+  bottom: -0.625rem;
+}
+.num {
+  display: grid;
+  place-items: center;
+  font-family: var(--mono);
+  font-size: 2rem;
+  font-weight: 700;
+  border-right: 2px dashed var(--ink);
+}
+.text {
+  align-self: center;
+  padding: var(--s-3);
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+.text strong {
+  font-weight: 800;
+}
+
+@media (min-width: 48rem) {
+  .section {
+    padding-block: var(--s-6);
+  }
+  .top {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: var(--s-5);
+  }
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: var(--s-5);
+  }
+  .text {
+    font-size: 1.25rem;
+  }
+}

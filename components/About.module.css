@@ -1,0 +1,90 @@
+.section {
+  background: var(--basement);
+  color: var(--primer);
+  padding-block: var(--s-6);
+}
+/* Shared container: identical to the hero and nav, so every left edge lines up. */
+.inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: grid;
+  gap: var(--s-5);
+}
+
+.figure {
+  margin: 0;
+  max-width: 28rem;
+  width: 100%;
+}
+.photo {
+  aspect-ratio: 4 / 5;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  border-radius: var(--r-chip);
+  box-shadow: var(--shadow-lift);
+}
+.caption {
+  margin-top: var(--s-2);
+  font-family: var(--mono);
+  font-size: var(--fs-ticket);
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+  align-self: center;
+}
+.h2 {
+  font-size: var(--fs-h2);
+}
+.body {
+  display: grid;
+  gap: var(--s-2);
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  max-width: 62ch;
+  margin-top: var(--s-1);
+}
+.note {
+  background: rgb(244 244 240 / 0.14);
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--r-control);
+  font-weight: 600;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  margin-top: var(--s-1);
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--primer);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+  transition: transform var(--t-fast) var(--ease-out);
+}
+.link:hover {
+  transform: translateX(4px);
+}
+
+@media (min-width: 56rem) {
+  .section {
+    padding-block: var(--s-7);
+  }
+  .inner {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--s-7);
+    align-items: center;
+  }
+}

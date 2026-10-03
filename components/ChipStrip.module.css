@@ -1,0 +1,425 @@
+/* Mobile first: each trade is a 64px horizontal band. From 760px it becomes a tall vertical strip. */
+
+.slot {
+  --k: 8.2;
+  position: relative;
+  z-index: 0;
+  list-style: none;
+  animation: rise 560ms var(--ease-out) calc(var(--i) * 60ms) both;
+}
+
+.slot:has(.strip:hover),
+.slot:has(.strip:focus-visible) {
+  z-index: 3;
+}
+
+.slot:has(.strip[aria-pressed="true"]) {
+  z-index: 2;
+}
+
+.strip {
+  --nx: 26px;
+  --ny: 50%;
+  --nr: 10px;
+  --lift: 0px;
+  --tilt: 0deg;
+  --shift: 0px;
+
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 64px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: var(--r-chip);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  transform-origin: 50% 100%;
+  transform: translate(var(--shift), var(--lift)) rotate(var(--tilt));
+  transition: transform var(--t-med) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.strip[aria-pressed="true"] {
+  --shift: 8px;
+}
+
+.strip:active {
+  --shift: 4px;
+}
+
+.strip:focus-visible {
+  outline-offset: 4px;
+  border-radius: var(--r-chip);
+}
+
+/* The shadow lives on its own layer so the die-cut hole on the card stays clear. */
+.shadow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-chip);
+  box-shadow: var(--shadow-rest);
+  transition: box-shadow var(--t-med) var(--ease-out);
+}
+
+.strip[aria-pressed="true"] .shadow {
+  box-shadow: var(--shadow-lift);
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--r-chip);
+  background: var(--card);
+  mask: radial-gradient(circle at var(--nx) var(--ny), #0000 calc(var(--nr) - 0.5px), #000 var(--nr));
+}
+
+.blocks {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 44fr 20fr 12fr 12fr 12fr;
+}
+
+.block {
+  position: relative;
+  display: block;
+}
+.block:nth-child(1) {
+  background: var(--c1);
+}
+.block:nth-child(2) {
+  background: var(--c2);
+}
+.block:nth-child(3) {
+  background: var(--c3);
+}
+.block:nth-child(4) {
+  background: var(--c4);
+}
+.block:nth-child(5) {
+  background: var(--c5);
+}
+
+/* Revealed only on the tall desktop strips. Still referenced by aria-describedby. */
+.line {
+  display: none;
+}
+
+.label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 44fr 20fr 12fr 12fr 12fr;
+  align-items: center;
+  pointer-events: none;
+}
+
+.name {
+  grid-column: 1;
+  padding: 0 6px 0 46px;
+  color: var(--ink);
+  font-family: var(--display);
+  font-stretch: 70%;
+  font-weight: 800;
+  font-size: 1.25rem;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  word-spacing: 0.12em;
+  text-wrap: balance;
+}
+
+/* The vertical spine name only exists on the tall strips. */
+.spine {
+  display: none;
+}
+
+.code {
+  grid-column: 2;
+  padding-left: 8px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* Ink ring that makes the notch look punched through */
+.ring {
+  position: absolute;
+  left: var(--nx);
+  top: var(--ny);
+  width: calc(var(--nr) * 2);
+  height: calc(var(--nr) * 2);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3.5px var(--ink);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6);
+  transition:
+    opacity var(--t-fast) var(--ease-out),
+    transform var(--t-med) var(--ease-out);
+  pointer-events: none;
+}
+
+.strip[aria-pressed="true"] .ring {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.stamp {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  padding: 3px 6px 2px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-50%) rotate(-4deg) scale(1.25);
+  transition:
+    opacity var(--t-fast) var(--ease-out),
+    transform var(--t-med) var(--ease-out);
+  pointer-events: none;
+}
+
+.strip[aria-pressed="true"] .stamp {
+  opacity: 1;
+  transform: translateY(-50%) rotate(-4deg) scale(1);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes riseTall {
+  from {
+    opacity: 0;
+    transform: translateY(64px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Tall vertical strips */
+@media (min-width: 760px) {
+  .slot {
+    height: var(--strip-h, 420px);
+    animation-name: riseTall;
+    animation-duration: 600ms;
+  }
+
+  .strip {
+    --nx: 50%;
+    --ny: 30px;
+    --nr: 12px;
+    --shift: 0px;
+    height: 100%;
+  }
+
+  .strip[aria-pressed="true"] {
+    --shift: 0px;
+    --lift: -36px;
+    --tilt: -2deg;
+  }
+
+  .strip:active {
+    --shift: 0px;
+    --lift: -8px;
+  }
+
+  .strip[aria-pressed="true"]:active {
+    --lift: -32px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blocks {
+    position: static;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .block {
+    flex: 1 1 0;
+  }
+  .block:last-child {
+    flex-grow: 1.6;
+  }
+
+  .block:last-child {
+    z-index: 2;
+  }
+
+  .line {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    background: var(--c5);
+    color: var(--c1);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    opacity: 0;
+    transform: translateY(5px);
+    transition:
+      opacity var(--t-med) var(--ease-out),
+      transform var(--t-med) var(--ease-out);
+  }
+
+  .blocks {
+    position: relative;
+  }
+
+  /* The name, printed up the spine like a chip's colour name. Two clipped layers share one baseline:
+     ink over the light blocks, ramp[0] over the dark ones, split at --split. */
+  .spine {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    pointer-events: none;
+  }
+
+  .spineInk {
+    color: var(--ink);
+    clip-path: inset(0 0 calc(100% - var(--split)) 0);
+  }
+
+  .spineLight {
+    color: var(--c1);
+    clip-path: inset(var(--split) 0 0 0);
+  }
+
+  .spineName {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    bottom: 10px;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    font-family: var(--display);
+    font-stretch: 64%;
+    font-weight: 900;
+    /* Longest name ("Basement Renovation") is ~--k em long; fit it to the spine's run. */
+    font-size: min(3rem, calc((var(--strip-h, 400px) - 108px) / var(--k)));
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    word-spacing: 0.12em;
+  }
+
+  .label {
+    position: static;
+    display: block;
+    flex: none;
+    padding: 9px 6px 11px;
+    background: var(--card);
+    text-align: center;
+  }
+
+  .name {
+    display: none;
+  }
+
+  .code {
+    padding: 0;
+    font-size: 0.75rem;
+  }
+
+  .stamp {
+    left: 50%;
+    right: auto;
+    top: 27%;
+    padding: 4px 7px 3px;
+    border-width: 2px;
+    transform: translate(-50%, -50%) rotate(-7deg) scale(1.3);
+  }
+
+  .strip[aria-pressed="true"] .stamp {
+    transform: translate(-50%, -50%) rotate(-7deg) scale(1);
+  }
+
+  .strip[aria-pressed="true"] .shadow {
+    box-shadow: var(--shadow-lift);
+  }
+
+  .strip:focus-visible {
+    --lift: -14px;
+  }
+  .strip[aria-pressed="true"]:focus-visible {
+    --lift: -40px;
+  }
+
+  .strip:focus-visible .shadow {
+    box-shadow: var(--shadow-lift);
+  }
+
+  .strip:focus-visible .line {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 760px) and (hover: hover) {
+  .strip:hover {
+    --lift: -14px;
+  }
+  .strip[aria-pressed="true"]:hover {
+    --lift: -40px;
+  }
+  .strip:hover .shadow {
+    box-shadow: var(--shadow-lift);
+  }
+  .strip:hover .line {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .label {
+    padding: 11px 6px 13px;
+  }
+
+  .line {
+    padding: 6px 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slot {
+    animation: none;
+  }
+}

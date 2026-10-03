@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.impeccable/config.local.json
+.vercel
+.impeccable
+.claude
+.vercel
+.vercelignore
+PRODUCT.md
+.DS_Store

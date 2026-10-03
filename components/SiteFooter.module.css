@@ -1,0 +1,111 @@
+.footer {
+  background: var(--rack);
+  color: var(--primer);
+}
+
+/* The edge of a closed fan deck: seven thin bars */
+.edge {
+  display: flex;
+  height: 1rem;
+}
+.edge span {
+  flex: 1;
+  display: block;
+}
+
+.inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: var(--s-6) var(--gutter) var(--s-5);
+  display: grid;
+  gap: var(--s-5);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-2);
+}
+.wordmark {
+  font-family: var(--display);
+  font-stretch: 72%;
+  font-weight: 800;
+  font-size: var(--fs-h2);
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  word-spacing: 0.14em;
+  text-wrap: balance;
+  max-width: 10ch;
+}
+.ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  font-weight: 600;
+  color: var(--primer);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.25em;
+}
+
+.col {
+  display: grid;
+  gap: var(--s-1);
+  align-content: start;
+}
+.colTitle {
+  font-weight: 800;
+  font-size: 1.125rem;
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--primer);
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--t-fast) var(--ease-out);
+}
+.list a:hover {
+  text-decoration-color: currentColor;
+}
+.trades {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--s-2);
+}
+
+.legal {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: var(--s-3) var(--gutter) var(--s-5);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-1) var(--s-3);
+  font-size: var(--fs-small);
+  border-top: 1px solid rgb(244 244 240 / 0.28);
+}
+.mono {
+  font-family: var(--mono);
+  font-size: var(--fs-ticket);
+}
+
+@media (min-width: 56rem) {
+  .inner {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--s-6);
+  }
+  .legal {
+    padding-bottom: var(--s-4);
+  }
+}

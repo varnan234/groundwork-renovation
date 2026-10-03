@@ -1,0 +1,198 @@
+/* Paint Counter: shared tokens and browser surfaces.
+   Component styles live in CSS modules next to each component. */
+
+:root {
+  /* Ground and ink */
+  --primer: #f4f4f0;        /* page ground, neutral primer white */
+  --card: #fbfbf8;          /* swatch card stock, a hair brighter than the ground */
+  --ink: #1d1c1a;           /* printed ink */
+  --ink-2: #4a4843;         /* secondary ink on light grounds, 8.9:1 on primer */
+  --rule: #d9d8d2;          /* hairline on light grounds */
+  --rack: #23221f;          /* the dark rack and counter */
+
+  /* Trade signature colours (ramp step 4) */
+  --basement: #2f4a3a;
+  --framing: #e2a52c;
+  --drywall: #8c887e;
+  --painting: #b4432f;
+  --flooring: #8a5a33;
+  --tiling: #3d5a7a;
+  --plumbing: #2d7f78;
+
+  /* Ticket print */
+  --print-red: #b4432f;     /* error and "required" ink on the ticket */
+
+  /* Type */
+  --display: var(--font-display), "Arial Narrow", sans-serif;
+  --body: var(--font-body), system-ui, sans-serif;
+  --mono: var(--font-ticket), ui-monospace, monospace;
+
+  /* Fluid scale: poster-sized display, sober body */
+  --fs-poster: clamp(3.25rem, 1.6rem + 7vw, 6rem);
+  --fs-h2: clamp(2.5rem, 1.4rem + 4.6vw, 5rem);
+  --fs-h3: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+  --fs-lead: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.875rem;
+  --fs-ticket: 0.8125rem;
+
+  /* Space: one rhythm, 8px base */
+  --s-1: 0.5rem;
+  --s-2: 1rem;
+  --s-3: 1.5rem;
+  --s-4: 2rem;
+  --s-5: 3rem;
+  --s-6: 4.5rem;
+  --s-7: 7rem;
+  --gutter: clamp(1rem, 0.4rem + 2.6vw, 2.5rem);
+  --maxw: 88rem;
+
+  /* Shape and depth */
+  --r-chip: 6px;            /* die-cut strip corners */
+  --r-control: 4px;
+  --shadow-lift: 0 18px 30px -12px rgb(29 28 26 / 0.45), 0 4px 8px -2px rgb(29 28 26 / 0.2);
+  --shadow-rest: 0 2px 4px -1px rgb(29 28 26 / 0.25);
+
+  /* Motion: exponential ease-out */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 180ms;
+  --t-med: 420ms;
+  --t-slow: 720ms;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  scrollbar-color: var(--ink-2) var(--primer);
+}
+
+body {
+  margin: 0;
+  background: var(--primer);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  font-feature-settings: "ss01" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  caret-color: var(--painting);
+}
+
+::selection {
+  background: var(--framing);
+  color: var(--ink);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* On dark or drenched grounds, flip the focus ring to primer */
+[data-ground="dark"] :focus-visible {
+  outline-color: var(--primer);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-stretch: 72%;
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.015em;
+  /* Condensed widths swallow the space glyph; open it back up so words stay separate. */
+  word-spacing: 0.14em;
+  text-wrap: balance;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--s-2);
+  top: -4rem;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--primer);
+  padding: var(--s-1) var(--s-2);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: var(--s-2);
+}
+
+/* Custom scrollbar for WebKit, themed from the palette */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--primer);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink-2);
+  border: 3px solid var(--primer);
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}

@@ -1,0 +1,142 @@
+.hero {
+  background: var(--primer);
+  padding: clamp(2rem, 5vw, 3.5rem) 0 var(--s-6);
+}
+
+.inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.title {
+  font-size: var(--fs-poster);
+  font-stretch: 70%;
+  font-weight: 900;
+}
+
+.lead {
+  max-width: 68ch;
+  margin-top: var(--s-3);
+  color: var(--ink-2);
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+  margin-top: var(--s-5);
+}
+
+/* The counter. Mobile: stacked horizontal bands. */
+.rack {
+  position: relative;
+  min-width: 0;
+  padding: 12px 20px 12px 12px;
+  border-radius: 14px;
+  background: var(--rack);
+}
+
+.strips {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ticketSlot {
+  display: none;
+}
+
+/* Tablet: rack on its own row, strips narrow, the rack scrolls inside itself if it must. */
+@media (min-width: 760px) {
+  .stage {
+    gap: var(--s-6);
+    margin-top: var(--s-6);
+  }
+
+  .rack {
+    --strip-h: 400px;
+    padding: 0;
+  }
+
+  /* A front ledge the strips stand on */
+  .rack::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 14px;
+    border-radius: 0 0 14px 14px;
+    background: color-mix(in srgb, var(--rack) 86%, var(--primer));
+    pointer-events: none;
+  }
+
+  .strips {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    padding: 60px 14px 30px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-2) transparent;
+  }
+
+  .strips > li {
+    flex: 1 1 88px;
+    min-width: 88px;
+    scroll-snap-align: center;
+  }
+
+  .ticketSlot {
+    display: block;
+    justify-self: start;
+    width: 100%;
+    max-width: 260px;
+    margin-left: var(--s-2);
+    padding-top: 6px;
+  }
+}
+
+/* Desktop: headline, then rack (about 68%) with the ticket pinned to its right. */
+@media (min-width: 1024px) {
+  .stage {
+    grid-template-columns: clamp(690px, 68%, 960px) minmax(0, 1fr);
+    align-items: start;
+    column-gap: clamp(1.5rem, 3vw, 3rem);
+    margin-top: var(--s-5);
+  }
+
+  .rack {
+    --strip-h: clamp(440px, calc(100svh - 360px), 520px);
+  }
+
+  .strips {
+    gap: 10px;
+    padding: 30px 14px 30px;
+    overflow: visible;
+  }
+
+  .strips > li {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .ticketSlot {
+    justify-self: center;
+    margin-left: 0;
+    padding-top: 22px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .strips {
+    gap: 12px;
+    padding-inline: 18px;
+  }
+}

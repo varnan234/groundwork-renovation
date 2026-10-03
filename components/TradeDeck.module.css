@@ -1,0 +1,243 @@
+.deck {
+  background: var(--primer);
+  overflow-x: clip;
+}
+
+/* Intro row on primer, above the drenched bands */
+.intro {
+  padding-block: var(--s-6) var(--s-4);
+}
+/* Shared container: identical to the hero and nav, so every left edge lines up. */
+.introInner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: grid;
+  gap: var(--s-3);
+  align-items: end;
+}
+.h2 {
+  font-size: var(--fs-h2);
+}
+.introCopy {
+  font-size: var(--fs-lead);
+  max-width: 44ch;
+  color: var(--ink-2);
+}
+
+/* One band per trade: the back of a paint chip at poster scale */
+.band {
+  --bg: var(--c4);
+  --fg: var(--card);
+  /* Swatch column on desktop: as wide as the page margin beside the shared container,
+     less a 0.75rem gap, so band text sits on the shared left edge and never touches it. */
+  --sw: clamp(1.25rem, calc(var(--gutter) + max(0px, (100% - var(--maxw)) / 2) - 0.75rem), 8rem);
+  position: relative;
+  background: var(--bg);
+  color: var(--fg);
+}
+.band[data-tone="dark"] {
+  --fg: var(--ink);
+}
+
+/* Mobile: the five swatches are a strip across the band's top edge. */
+.swatches {
+  display: flex;
+  height: 1.25rem;
+}
+.swatches span {
+  flex: 1;
+  display: block;
+}
+
+/* Shared container: identical to the hero and nav, so every left edge lines up. */
+.inner {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: var(--s-5) var(--gutter);
+  display: grid;
+  gap: var(--s-4);
+  align-content: center;
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  align-items: flex-start;
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-1) var(--s-2);
+}
+.title {
+  font-size: var(--fs-h2);
+  line-height: 0.88;
+}
+.code {
+  font-family: var(--mono);
+  font-size: var(--fs-ticket);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.55rem;
+  border: 2px solid currentColor;
+  border-radius: var(--r-control);
+  white-space: nowrap;
+}
+.lead {
+  font-size: var(--fs-lead);
+  font-weight: 600;
+  line-height: 1.35;
+  max-width: 30ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-3);
+  margin-top: var(--s-1);
+}
+
+.add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0 1.25rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--fg);
+  background: transparent;
+  border: 2px solid var(--fg);
+  border-radius: var(--r-control);
+  transition:
+    background-color var(--t-fast) var(--ease-out),
+    color var(--t-fast) var(--ease-out),
+    transform var(--t-fast) var(--ease-out);
+}
+.add:hover {
+  background: color-mix(in srgb, var(--fg) 16%, transparent);
+}
+.add:active {
+  transform: translateY(1px);
+}
+.add[aria-pressed="true"] {
+  background: var(--fg);
+  color: var(--bg);
+}
+.add[aria-pressed="true"]:hover {
+  background: var(--fg);
+}
+
+.book {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.75rem;
+  font-weight: 700;
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+}
+.book svg {
+  transition: transform var(--t-fast) var(--ease-out);
+}
+.book:hover svg {
+  transform: translateX(4px);
+}
+
+/* The spec block: mono-labelled rows */
+.spec {
+  margin: 0;
+  display: grid;
+  align-content: center;
+  max-width: 40rem;
+}
+.row {
+  display: grid;
+  gap: 0.35rem;
+  padding: var(--s-2) 0;
+  border-top: 2px solid var(--fg);
+}
+.row:last-child {
+  border-bottom: 2px solid var(--fg);
+}
+.row dt {
+  font-family: var(--mono);
+  font-size: var(--fs-ticket);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.row dd {
+  margin: 0;
+  font-size: var(--fs-lead);
+  font-weight: 500;
+  line-height: 1.4;
+}
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 1.0625rem;
+}
+
+@media (min-width: 48rem) {
+  .inner {
+    padding-block: var(--s-6);
+  }
+  .introInner {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 62rem) {
+  /* Desktop: a full-bleed column at the band edge, in the page margin. */
+  .swatches {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--sw);
+    height: auto;
+    flex-direction: column;
+  }
+  .flip .swatches {
+    left: auto;
+    right: 0;
+  }
+  /* The column is the chip's swatch edge, so give it real width. Content keeps the shared
+     container on the open side and clears the column on the swatch side. */
+  .band {
+    --sw: clamp(4.5rem, 6.5vw, 8rem);
+  }
+  .band:not(.flip) .inner {
+    padding-left: max(var(--gutter), calc(var(--sw) + var(--s-4) - max(0px, (100% - var(--maxw)) / 2)));
+  }
+  .flip .inner {
+    padding-right: max(var(--gutter), calc(var(--sw) + var(--s-4) - max(0px, (100% - var(--maxw)) / 2)));
+  }
+  .inner {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: var(--s-6);
+    align-items: center;
+  }
+}
+
+/* Swatch wipe: only when JS has flagged the section, and only with motion allowed */
+@media (prefers-reduced-motion: no-preference) {
+  .deck[data-js] .swatches {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path var(--t-slow) var(--ease-out);
+  }
+  .deck[data-js] [data-inview] > .swatches {
+    clip-path: inset(0 0 0 0);
+  }
+}
